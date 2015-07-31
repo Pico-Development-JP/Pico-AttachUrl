@@ -38,8 +38,10 @@ class AttachURL{
       $urltexts = explode(",", isset($page_meta['attachurl_text']) ? $page_meta['attachurl_text'] : "");
       $urllist = array();
       for($i = 0; $i < count($urls); $i++){
-        $u = trim($urls[$i]);
-        $t = empty($urltexts[$i]) ? $this->attachurl_text : trim($urltexts[$i]);
+        $urs = explode("::", trim($urls[$i]), 2);
+        $u = count($urs) >= 2 ? $urs[1] : $urs[0];
+        $t = count($urs) >= 2 ? $urs[0] : 
+          (empty($urltexts[$i]) ? $this->attachurl_text : trim($urltexts[$i]));
         $e = false;
         if(substr($u, 0, 1) == "/"){
           // 自サイト内のパス
