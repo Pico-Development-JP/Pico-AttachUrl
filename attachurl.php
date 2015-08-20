@@ -31,8 +31,8 @@ class AttachURL{
   	$headers['attachurl_text'] = 'URLText';
   }
 	
-	public function get_page_data(&$data, $page_meta)
-	{
+  public function get_page_data(&$data, $page_meta)
+  {
     if(!empty($page_meta['attachurl'])){
       $urls = explode(",", $page_meta['attachurl']);
       $urltexts = explode(",", isset($page_meta['attachurl_text']) ? $page_meta['attachurl_text'] : "");
@@ -54,7 +54,7 @@ class AttachURL{
       }
       $data['attachurl'] = $urllist;
     }
-	}
+  }
 }
 
 ?>
