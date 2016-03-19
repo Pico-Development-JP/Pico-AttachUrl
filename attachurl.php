@@ -8,7 +8,9 @@
  * @license http://opensource.org/licenses/MIT
  * @version 1.0
  */
-class AttachURL{
+class AttachURL extends AbstractPicoPlugin {
+
+  protected $enabled = false;
 
   private $base_url;
   
@@ -16,23 +18,25 @@ class AttachURL{
   
   private $attachurl_text;
   
-  public function config_loaded(&$settings) {
-    $this->base_url = $settings['base_url'];
-    $this->content_dir = $settings['content_dir'];
+  public function onConfigLoaded(array &$config)
+  {
+    $this->base_url = $config['base_url'];
+    $this->content_dir = $config['content_dir'];
     $this->attachurl_text = "Attached URL";
-    if(isset($settings['attachurl']) && isset($settings['attachurl']['defaulttext'])){
-      $this->attachurl_text = $settings['attachurl']['defaulttext'];
+    if(isset($config['attachurl']) && isset($config['attachurl']['defaulttext'])){
+      $this->attachurl_text = $config['attachurl']['defaulttext'];
     }
   }
 
-  public function before_read_file_meta(&$headers)
+  public function onMetaHeaders(array &$headers)
   {
   	$headers['attachurl'] = 'URL';
   	$headers['attachurl_text'] = 'URLText';
   }
 	
-  public function get_page_data(&$data, $page_meta)
+  public function onSinglePageLoaded(array &$pageData)
   {
+    $page_meta = $pageData['meta'];
     if(!empty($page_meta['attachurl'])){
       $urls = explode(",", $page_meta['attachurl']);
       $urltexts = explode(",", isset($page_meta['attachurl_text']) ? $page_meta['attachurl_text'] : "");
@@ -52,7 +56,7 @@ class AttachURL{
         }
         $urllist[] = array('url' => $u, 'text' => $t, 'external' => $e);
       }
-      $data['attachurl'] = $urllist;
+      $pageData['attachurl'] = $urllist;
     }
   }
 }
