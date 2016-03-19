@@ -11,17 +11,10 @@
 class AttachURL extends AbstractPicoPlugin {
 
   protected $enabled = false;
-
-  private $base_url;
-  
-  private $content_dir;
-  
   private $attachurl_text;
   
   public function onConfigLoaded(array &$config)
   {
-    $this->base_url = $config['base_url'];
-    $this->content_dir = $config['content_dir'];
     $this->attachurl_text = "Attached URL";
     if(isset($config['attachurl']) && isset($config['attachurl']['defaulttext'])){
       $this->attachurl_text = $config['attachurl']['defaulttext'];
@@ -55,7 +48,7 @@ class AttachURL extends AbstractPicoPlugin {
         $e = false;
         if(substr($u, 0, 1) == "/"){
           // 自サイト内のパス
-          $u = $this->base_url . $u;
+          $u = $baseurl . $u;
         }else{
           // URL
           $e = true;
