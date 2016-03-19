@@ -38,7 +38,13 @@ class AttachURL extends AbstractPicoPlugin {
   {
     $page_meta = $pageData['meta'];
     if(!empty($page_meta['attachurl'])){
-      $urls = explode(",", $page_meta['attachurl']);
+      $baseurl = substr($this->getBaseUrl(), 0, -1);
+      if(is_array($page_meta['attachurl']))
+      {
+        $urls = $page_meta['attachurl'];
+      }else{
+        $urls = explode(",", $page_meta['attachurl']);        
+      }
       $urltexts = explode(",", isset($page_meta['attachurl_text']) ? $page_meta['attachurl_text'] : "");
       $urllist = array();
       for($i = 0; $i < count($urls); $i++){
